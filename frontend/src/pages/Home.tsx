@@ -13,7 +13,7 @@ const Home = () => {
   const accessTokenHandler = () => {
     axios
       .get("/auth/accessToken")
-      .then(() => alert("유효한 토큰이므로 이후 진행이 가능합니다."))
+      .then(() => alert("유효한 토큰입니다."))
       .catch((error) => {
         alert(error.response.data);
         localStorage.removeItem("auth");

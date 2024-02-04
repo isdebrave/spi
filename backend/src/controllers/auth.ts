@@ -33,7 +33,7 @@ export const login = (req: Request, res: Response) => {
     const refreshToken = jwt.sign(
       { id: user.id, name: user.name, email: user.email },
       process.env.REFRESH_SECRET!,
-      { expiresIn: "30s" }
+      { expiresIn: "20s" }
     );
     refreshTokenDatabase.token = refreshToken;
 
@@ -62,12 +62,15 @@ export const accessToken = (req: Request, res: Response) => {
     if (error instanceof TokenExpiredError) {
       try {
         const token = refreshTokenDatabase.token;
+
         // refreshToken 검증
         const { id } = jwt.verify(token, process.env.REFRESH_SECRET!) as {
           id: string;
         };
+
         // refreshToken 유효
         const user = userDatabase.find((item) => item.id === id)!;
+
         // accessToken 갱신 & 쿠키에 새로 전달
         const accessToken = jwt.sign(
           { id: user.id, name: user.name, email: user.email },
@@ -78,6 +81,7 @@ export const accessToken = (req: Request, res: Response) => {
           httpOnly: true,
           secure: false,
         });
+
         const { password, ...restUser } = user;
         res.status(200).json(restUser);
       } catch (error) {

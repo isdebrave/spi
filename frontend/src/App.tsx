@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Root from "./pages/Root";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,7 +9,6 @@ import Public from "./utils/Public";
 
 const router = createBrowserRouter([
   {
-    element: <Root />,
     errorElement: <NotFound />,
     children: [
       {
